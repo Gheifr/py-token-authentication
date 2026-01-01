@@ -8,6 +8,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "username",
+            "password",
             "email",
             "is_staff",
         )
@@ -18,6 +19,7 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "password": {
                 "write_only": True,
+                "min_length": 8,
                 "style": {"input_type": "password"},
             }
         }
@@ -26,7 +28,7 @@ class UserSerializer(serializers.ModelSerializer):
         return get_user_model().objects.create_user(**validated_data)
 
     def update(self, instance, validated_data):
-        password_data = validated_data.pop("password")
+        password_data = validated_data.pop("password", None)
         user = super(UserSerializer, self).update(instance, validated_data)
         if password_data:
             user.set_password(password_data)
