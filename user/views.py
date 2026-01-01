@@ -1,5 +1,4 @@
-from django.contrib.auth import get_user_model
-from rest_framework import generics, request
+from rest_framework import generics
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import IsAuthenticated
@@ -21,5 +20,5 @@ class UserDetailView(generics.RetrieveUpdateAPIView):
         return self.request.user
 
 
-class CreateUserView(generics.CreateAPIView):
+class UserCreateView(generics.CreateAPIView):
     serializer_class = UserSerializer
